@@ -1,0 +1,14 @@
+# general rule for shifted vs truncated
+truncated
+# general rule tailcorrections
+yes  
+# number of defined interactions
+5
+# type interaction
+N_n2           lennard-jones    36.4      3.32        // J. J. Potoff and J. I. Siepmann, AIChE J. 2001, 47, 1676.
+N_com          none                                   // idem
+H_h2           lennard-jones    38.0      2.915       // C. H. Turner, J. K. Johnson, and K. E. Gubbins, J. Chem. Phys. 2001, 114, 1851.
+N_NH3          lennard-jones    105.75    3.36        // L. Zhang and J. I. Siepmann, Collect. Czech. Chem. Commun. 2010, 75, 577.
+H_NH3          none                                   // idem
+# general mixing rule for Lennard-Jones
+Lorentz-Berthelot

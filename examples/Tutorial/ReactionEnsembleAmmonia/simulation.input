@@ -1,0 +1,46 @@
+SimulationType                MC
+NumberOfCycles                2500
+NumberOfInitializationCycles  5000
+NumberOfEquilibrationCycles   5000
+RestartFile                   no
+PrintEvery                    100
+
+ChargeMethod                  Ewald
+Forcefield                    Local
+CutOffVDW                     9.0
+CutOffCoulomb                 9.0
+EwaldPrecision                1e-5
+
+Box 0
+BoxLengths  34  34  34
+ExternalTemperature 573.0
+ExternalPressure 4e7
+
+Reaction 1 3 0 0 0 2
+
+ProbabilityCFCRXMCLambdaChangeMove 1.0
+VolumeChangeProbability            0.1
+
+Component 0 MoleculeName             N2
+            MoleculeDefinition       Local
+            LnPartitionFunction      208.188
+            TranslationProbability   40.0
+            RotationProbability      53.9
+            ReinsertionProbability   5.0 
+            CreateNumberOfMolecules  7
+
+Component 1 MoleculeName             H2
+            MoleculeDefinition       Local
+            LnPartitionFunction      93.9084
+            TranslationProbability   40.0
+            RotationProbability      53.9
+            ReinsertionProbability   5.0 
+            CreateNumberOfMolecules  21
+
+Component 2 MoleculeName             NH3
+            MoleculeDefinition       Local
+            LnPartitionFunction      253.69
+            TranslationProbability   40.0
+            RotationProbability      53.9
+            ReinsertionProbability   5.0 
+            CreateNumberOfMolecules  146

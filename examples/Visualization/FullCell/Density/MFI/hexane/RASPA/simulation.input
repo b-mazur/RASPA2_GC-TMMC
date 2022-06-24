@@ -1,0 +1,32 @@
+SimulationType                MonteCarlo
+NumberOfCycles                5000000
+NumberOfInitializationCycles  100000
+PrintEvery                    5000
+RestartFile                   yes
+
+ChargeMethod                  Ewald
+Forcefield                    ExampleZeolitesForceField
+RemoveAtomNumberCodeFromLabel yes
+
+Framework           0
+FrameworkName       MFI_SI
+UnitCells           2 2 4
+HeliumVoidFraction  0.29
+ExternalTemperature 433
+ExternalPressure    1.0e5
+ComputeDensityProfile3DVTKGrid yes
+WriteDensityProfile3DVTKGridEvery 5000
+DensityProfile3DVTKGridPoints 150 150 150
+AverageDensityOverUnitCellsVTK yes
+DensityAveragingTypeVTK FullBox
+
+Component 0 MoleculeName                  hexane
+            MoleculeDefinition            ExampleDefinitions
+            IdealGasRosenbluthWeight      0.00811779
+            FugacityCoefficient           1.0
+            TranslationProbability        1.0
+            RotationProbability           1.0
+            ReinsertionProbability        1.0
+            PartialReinsertionProbability 1.0
+            SwapProbability               1.0
+            CreateNumberOfMolecules       0

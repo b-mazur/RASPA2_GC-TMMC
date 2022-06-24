@@ -1,0 +1,11 @@
+SimulationType                   MonteCarlo
+NumberOfCycles                   0
+
+Forcefield                       ExampleZeolitesForceField
+
+VTKFractionalFrameworkBondsMin -0.01 -0.01 -0.01
+VTKFractionalFrameworkBondsMax  1.01  1.01  1.01
+
+Framework 0
+FrameworkName MFI_SI
+UnitCells 2 2 4

@@ -1,0 +1,32 @@
+SimulationType                MonteCarlo
+NumberOfCycles                0
+NumberOfInitializationCycles  0
+PrintEvery                    1000
+RestartFile                   yes
+
+VTKFractionalAdsorbateMin -0.04 -0.04 -0.04
+VTKFractionalAdsorbateMax  1.04  1.04  1.04
+
+ChargeMethod                  Ewald
+Forcefield                    ExampleZeolitesForceField
+RemoveAtomNumberCodeFromLabel yes
+
+Framework           0
+FrameworkName       MFI_SI
+UnitCells           2 2 4
+HeliumVoidFraction  0.29
+ExternalTemperature 433.0
+ExternalPressure    100000.000000
+
+
+Component 0 MoleculeName                   hexane
+            MoleculeDefinition             ExampleDefinitions
+            IdealGasRosenbluthWeight       0.00811779
+            FugacityCoefficient            1.0
+            TranslationProbability         1.0
+            RotationProbability            1.0
+            ReinsertionProbability         1.0
+            PartialReinsertionProbability  1.0
+            IdentityChangeProbability      0.0
+            SwapProbability                1.0
+            CreateNumberOfMolecules        0
