@@ -28,7 +28,7 @@ output file. To better understand GC-TMMC method see for example:
 
 * A. Datar, M. Witman, and L. Lin, "Improving Computational Assessment of Porous Materials for Water Adsorption Applications via Flat Histogram Methods", J. Phys. Chem. C 2021, 125, 7, 4253–4266
 [link to article](https://doi.org/10.1021/acs.jpcc.0c11082)
-* D. W. Siderius* and V. K. Shen, "Use of the Grand Canonical Transition-Matrix Monte Carlo Method to Model Gas Adsorption in Porous Materials", J. Phys. Chem. C 2013, 117, 11, 5861–5872
+* D. W. Siderius and V. K. Shen, "Use of the Grand Canonical Transition-Matrix Monte Carlo Method to Model Gas Adsorption in Porous Materials", J. Phys. Chem. C 2013, 117, 11, 5861–5872
 [link to article](https://doi.org/10.1021/jp400480q)
 
 As the code is still being developed unforeseen bugs may occur. 
