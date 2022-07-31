@@ -17,7 +17,7 @@ C(N,N-1)=C(N,N-1)+acc(N→N-1)
 C(N,N)=C(N,N)+[1-acc(N→N-1)]
 ```
 
-To calculate density of states at given P and T you have to perform separate simulations for each falue of N ∈ \[0, N<sub>max</sub>\].
+To calculate density of states at given P and T you have to perform separate simulations for each falue of N ∈ \[0, N<sub>max</sub>\]. See an [example input file](https://github.com/b-mazur/supplementary_data/blob/main/001_Mazur_JChemPhysLett_2022/simulation_input/GC-TMMC/simulation.input). 
 
 Current sum of probabilities are printed at the end of the block of properties in the standard
 output file. To better understand GC-TMMC method see for example:
