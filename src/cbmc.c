@@ -106,6 +106,7 @@ int NumberOfTrialPositionsPartialReinsertion;
 int NumberOfTrialPositionsIdentityChange;
 int NumberOfTrialPositionsGibbs;
 int NumberOfTrialPositionsSwap;
+int NumberOfTrialPositionsGhostSwap;
 int NumberOfTrialPositionsWidom;
 
 int MaxNumberOfTrialPositionsForTheFirstBead;
@@ -3777,6 +3778,7 @@ void WriteRestartCBMC(FILE *FilePtr)
   fwrite(&NumberOfTrialPositionsIdentityChange,sizeof(NumberOfTrialPositionsIdentityChange),1,FilePtr);
   fwrite(&NumberOfTrialPositionsGibbs,sizeof(NumberOfTrialPositionsGibbs),1,FilePtr);
   fwrite(&NumberOfTrialPositionsSwap,sizeof(NumberOfTrialPositionsSwap),1,FilePtr);
+  fwrite(&NumberOfTrialPositionsGhostSwap,sizeof(NumberOfTrialPositionsGhostSwap),1,FilePtr);
   fwrite(&NumberOfTrialPositionsWidom,sizeof(NumberOfTrialPositionsWidom),1,FilePtr);
 
   fwrite(&NumberOfTrialPositionsForTheFirstBeadReinsertion,sizeof(NumberOfTrialPositionsForTheFirstBeadReinsertion),1,FilePtr);
@@ -3823,6 +3825,7 @@ void AllocateCBMCMemory(void)
   if(NumberOfTrialPositionsIdentityChange>MaxNumberOfTrialPositions) MaxNumberOfTrialPositions=NumberOfTrialPositionsIdentityChange;
   if(NumberOfTrialPositionsGibbs>MaxNumberOfTrialPositions) MaxNumberOfTrialPositions=NumberOfTrialPositionsGibbs;
   if(NumberOfTrialPositionsSwap>MaxNumberOfTrialPositions) MaxNumberOfTrialPositions=NumberOfTrialPositionsSwap;
+  if(NumberOfTrialPositionsGhostSwap>MaxNumberOfTrialPositions) MaxNumberOfTrialPositions=NumberOfTrialPositionsGhostSwap;
   if(NumberOfTrialPositionsWidom>MaxNumberOfTrialPositions) MaxNumberOfTrialPositions=NumberOfTrialPositionsWidom;
 
   MaxNumberOfTrialPositionsForTheFirstBead=NumberOfTrialPositionsForTheFirstBead;
@@ -4106,6 +4109,7 @@ void ReadRestartCBMC(FILE *FilePtr)
   fread(&NumberOfTrialPositionsIdentityChange,sizeof(NumberOfTrialPositionsIdentityChange),1,FilePtr);
   fread(&NumberOfTrialPositionsGibbs,sizeof(NumberOfTrialPositionsGibbs),1,FilePtr);
   fread(&NumberOfTrialPositionsSwap,sizeof(NumberOfTrialPositionsSwap),1,FilePtr);
+  fread(&NumberOfTrialPositionsGhostSwap,sizeof(NumberOfTrialPositionsGhostSwap),1,FilePtr);
   fread(&NumberOfTrialPositionsWidom,sizeof(NumberOfTrialPositionsWidom),1,FilePtr);
 
   fread(&NumberOfTrialPositionsForTheFirstBeadReinsertion,sizeof(NumberOfTrialPositionsForTheFirstBeadReinsertion),1,FilePtr);

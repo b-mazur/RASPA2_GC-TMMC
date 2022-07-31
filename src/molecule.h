@@ -530,6 +530,7 @@ typedef struct Component
   REAL ProbabilityReinsertionInPlaneMove;
   REAL ProbabilityIdentityChangeMove;
   REAL ProbabilitySwapMove;
+  REAL ProbabilityGhostSwapMove;
   REAL ProbabilityCFSwapLambdaMove;
   REAL ProbabilityCBCFSwapLambdaMove;
   REAL ProbabilityWidomMove;
@@ -620,6 +621,7 @@ typedef struct Component
   REAL FractionOfReinsertionInPlaneMove;
   REAL FractionOfIdentityChangeMove;
   REAL FractionOfSwapMove;
+  REAL FractionOfGhostSwapMove;
   REAL FractionOfCFSwapLambdaMove;
   REAL FractionOfCBCFSwapLambdaMove;
   REAL FractionOfWidomMove;

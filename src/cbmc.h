@@ -55,6 +55,7 @@ extern int NumberOfTrialPositionsPartialReinsertion;
 extern int NumberOfTrialPositionsIdentityChange;
 extern int NumberOfTrialPositionsGibbs;
 extern int NumberOfTrialPositionsSwap;
+extern int NumberOfTrialPositionsGhostSwap;
 extern int NumberOfTrialPositionsWidom;
 
 extern int MaxNumberOfTrialPositionsForTheFirstBead;

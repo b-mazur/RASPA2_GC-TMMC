@@ -2260,6 +2260,7 @@ void PrintPreSimulationStatusCurrentSystem(int system)
   fprintf(FilePtr,"Number of trial positions (identity-change):                     %d\n",NumberOfTrialPositionsIdentityChange);
   fprintf(FilePtr,"Number of trial positions (Gibbs particle transfer):             %d\n",NumberOfTrialPositionsGibbs);
   fprintf(FilePtr,"Number of trial positions (insertion/deletion):                  %d\n",NumberOfTrialPositionsSwap);
+  fprintf(FilePtr,"Number of trial positions (ghost insertion/deletion):            %d\n",NumberOfTrialPositionsGhostSwap);
   fprintf(FilePtr,"Number of trial positions (Widom insertion):                     %d\n",NumberOfTrialPositionsWidom);
   fprintf(FilePtr,"Number of trial positions coupled Torsion-selection:             %d\n",NumberOfTrialPositionsTorsion);
   fprintf(FilePtr,"Number of trial positions first bead:                            %d\n",NumberOfTrialPositionsForTheFirstBead);
@@ -3893,6 +3894,7 @@ void PrintPreSimulationStatusCurrentSystem(int system)
       for(j=0;j<Components[i].NumberOfIdentityChanges;j++)
         fprintf(FilePtr,"\t\t\tmove %d    component %d => %d\n",j,i,Components[i].IdentityChanges[j]);
       fprintf(FilePtr,"\t\tPercentage of swap (insert/delete) moves:          %lf\n",(double)(100.0*Components[i].FractionOfSwapMove));
+      fprintf(FilePtr,"\t\tPercentage of ghost swap (insert/delete) moves:    %lf\n",(double)(100.0*Components[i].FractionOfGhostSwapMove));
       fprintf(FilePtr,"\t\tPercentage of CF swap lambda moves:                %lf\n",(double)(100.0*Components[i].FractionOfCFSwapLambdaMove));
       fprintf(FilePtr,"\t\tPercentage of CB/CFMC swap lambda moves:           %lf\n",(double)(100.0*Components[i].FractionOfCBCFSwapLambdaMove));
       fprintf(FilePtr,"\t\tPercentage of Widom insertion moves:               %lf\n",(double)(100.0*Components[i].FractionOfWidomMove));

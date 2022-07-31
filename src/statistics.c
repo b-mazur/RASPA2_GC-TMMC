@@ -245,6 +245,12 @@ REAL ***GibbsWidomEnergyDifferenceAccumulated;
 REAL ***GibbsWidomEnergyFrameworkAccumulated;
 REAL ***GibbsWidomEnergyFrameworkCount;
 
+// probabilities
+REAL **GhostInsertionAcceptanceProbability;
+REAL **GhostInsertionRejectionProbability;
+REAL **GhostDeletionAcceptanceProbability;
+REAL **GhostDeletionRejectionProbability;
+
 REAL **SurfaceAreaFrameworkAccumulated;
 REAL ***SurfaceAreaFrameworksAccumulated;
 REAL **SurfaceAreaCationsAccumulated;
@@ -1008,6 +1014,11 @@ void InitializesEnergyAveragesAllSystems(void)
       UAdsorbateBackPolarizationAccumulated[k][i]=0.0;
       UCationBackPolarizationAccumulated[k][i]=0.0;
 
+      GhostInsertionAcceptanceProbability[k][i]=0.0;
+      GhostInsertionRejectionProbability[k][i]=0.0;
+      GhostDeletionAcceptanceProbability[k][i]=0.0;
+      GhostDeletionRejectionProbability[k][i]=0.0;
+
       UTotalAccumulated[k][i]=0.0;
       NumberOfIntegerMoleculesAccumulated[k][i]=0.0;
       DensityAccumulated[k][i]=0.0;
@@ -1575,6 +1586,7 @@ void PrintIntervalStatusInit(long long CurrentCycle,long long NumberOfCycles,FIL
   int FractionalMolecule;
   REAL loading,average_loading,Lambda,shift;
   VECTOR com;
+  REAL sumInsAcc,sumDelAcc,sumRej;
 
   fprintf(FilePtr,"[Init] Current cycle: %lld out of %lld\n",CurrentCycle,NumberOfCycles);
   fprintf(FilePtr,"========================================================================================================\n\n");
@@ -1840,6 +1852,37 @@ void PrintIntervalStatusInit(long long CurrentCycle,long long NumberOfCycles,FIL
       fprintf(FilePtr,"\t\tCurrent Host-Bend/Torsion energy:     % 22.10lf [K]\n",
           (double)UHostBendTorsion[CurrentSystem]*ENERGY_TO_KELVIN);
   }
+
+  // Ghost insertion probabilities
+
+  fprintf(FilePtr, "\n");
+  fprintf(FilePtr, "Current ghost insertion probabilities:\n");
+  sumInsAcc=sumDelAcc=sumRej=0.0;
+  for(int i=0;i<NR_BLOCKS;i++)
+  {
+    if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
+    {
+      REAL tmp1=GhostInsertionAcceptanceProbability[CurrentSystem][i];
+      sumInsAcc+=tmp1;
+      REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
+      sumDelAcc+=tmp2;
+      REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
+      sumRej+=tmp3;
+    }
+  }
+  if(sumInsAcc>0.0)
+  {
+    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)sumInsAcc);
+    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)sumDelAcc);
+    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)sumRej);
+  }
+  else
+  {
+    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)0.0);
+    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)0.0);
+    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)0.0);
+  } 
+
   fprintf(FilePtr,"\n");
   PrintWarningStatus();
   fprintf(FilePtr,"\n\n");
@@ -1853,6 +1896,7 @@ void PrintIntervalStatusEquilibration(long long CurrentCycle,long long NumberOfC
   int FractionalMolecule;
   REAL loading,average_loading,shift,Lambda;
   VECTOR com;
+  REAL sumInsAcc,sumDelAcc,sumRej;
 
   fprintf(FilePtr,"[Equilibration] Current cycle: %lld out of %lld\n",CurrentCycle,NumberOfCycles);
   fprintf(FilePtr,"========================================================================================================\n\n");
@@ -2158,6 +2202,36 @@ void PrintIntervalStatusEquilibration(long long CurrentCycle,long long NumberOfC
       fprintf(FilePtr,"\t\tCurrent Host-Bend/Torsion energy:     % 22.10lf [K]\n",
           (double)UHostBendTorsion[CurrentSystem]*ENERGY_TO_KELVIN);
   }
+
+  // Ghost insertion probabilities
+
+  fprintf(FilePtr, "\n");
+  fprintf(FilePtr, "Current ghost insertion probabilities:\n");
+  sumInsAcc=sumDelAcc=sumRej=0.0;
+  for(int i=0;i<NR_BLOCKS;i++)
+  {
+    if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
+    {
+      REAL tmp1=GhostInsertionAcceptanceProbability[CurrentSystem][i];
+      sumInsAcc+=tmp1;
+      REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
+      sumDelAcc+=tmp2;
+      REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
+      sumRej+=tmp3;
+    }
+  }
+  if(sumInsAcc>0.0)
+  {
+    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)sumInsAcc);
+    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)sumDelAcc);
+    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)sumRej);
+  }
+  else
+  {
+    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)0.0);
+    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)0.0);
+    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)0.0);
+  }  
 
   fprintf(FilePtr,"\n");
   PrintWarningStatus();
@@ -2927,6 +3001,7 @@ void PrintIntervalStatusProduction(long long CurrentCycle,long long NumberOfCycl
   REAL Lambda,shift;
   REAL_MATRIX3x3 Stress;
   VECTOR com;
+  REAL sumInsAcc,sumDelAcc,sumRej;
 
   fprintf(FilePtr,"Current cycle: %lld out of %lld\n",CurrentCycle,NumberOfCycles);
   fprintf(FilePtr,"========================================================================================================\n\n");
@@ -3321,6 +3396,36 @@ void PrintIntervalStatusProduction(long long CurrentCycle,long long NumberOfCycl
           (double)UHostBendTorsion[CurrentSystem]*ENERGY_TO_KELVIN,(double)GetAverageWeightedProperty(UHostBendTorsionAccumulated)*ENERGY_TO_KELVIN);
   }
 
+  // Ghost insertion probabilities
+
+  fprintf(FilePtr, "\n");
+  fprintf(FilePtr, "Current ghost insertion probabilities:\n");
+  sumInsAcc=sumDelAcc=sumRej=0.0;
+  for(int i=0;i<NR_BLOCKS;i++)
+  {
+    if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
+    {
+      REAL tmp1=GhostInsertionAcceptanceProbability[CurrentSystem][i];
+      sumInsAcc+=tmp1;
+      REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
+      sumDelAcc+=tmp2;
+      REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
+      sumRej+=tmp3;
+    }
+  }
+  if(sumInsAcc>0.0)
+  {
+    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)sumInsAcc);
+    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)sumDelAcc);
+    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)sumRej);
+  }
+  else
+  {
+    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)0.0);
+    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)0.0);
+    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)0.0);
+  } 
+
   fprintf(FilePtr,"\n");
   PrintWarningStatus();
   fprintf(FilePtr,"\n\n");
@@ -3404,6 +3509,7 @@ void PrintAverageTotalSystemEnergiesMC(FILE *FilePtr)
 {
   REAL sum,sum_squared; 
   REAL avg,error;
+  REAL sumInsAcc,sumDelAcc,sumRej;
 
   fprintf(FilePtr,"\n\n\n");
   fprintf(FilePtr,"Average properties of the system[%d]:\n",CurrentSystem);
@@ -4621,6 +4727,37 @@ void PrintAverageTotalSystemEnergiesMC(FILE *FilePtr)
         Components[j].Name, avg, error, avg * KELVIN_TO_KJ_PER_MOL, error * KELVIN_TO_KJ_PER_MOL);
     }
   }
+
+  // Ghost insertion probabilities
+
+  fprintf(FilePtr, "\n");
+  fprintf(FilePtr, "Ghost insertion probabilities:\n");
+  fprintf(FilePtr, "==============================\n");
+  sumInsAcc=sumDelAcc=sumRej=0.0;
+  for(int i=0;i<NR_BLOCKS;i++)
+  {
+    if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
+    {
+      REAL tmp1=GhostInsertionAcceptanceProbability[CurrentSystem][i];
+      sumInsAcc+=tmp1;
+      REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
+      sumDelAcc+=tmp2;
+      REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
+      sumRej+=tmp3;
+    }
+  }
+  if(sumInsAcc>0.0)
+  {
+    fprintf(FilePtr, "\tInsertion probability: %18.10lf \n", (double)sumInsAcc);
+    fprintf(FilePtr, "\tDeletion probability: %18.10lf \n", (double)sumDelAcc);
+    fprintf(FilePtr, "\tGhost swap rejection probability: %18.10lf \n", (double)sumRej);
+  }
+  else
+  {
+    fprintf(FilePtr, "\tInsertion probability: %18.10lf \n", (double)0.0);
+    fprintf(FilePtr, "\tDeletion probability: %18.10lf \n", (double)0.0);
+    fprintf(FilePtr, "\tGhost swap rejection probability: %18.10lf \n", (double)0.0);
+  }
 }
 
 static int versionNumber=1;
@@ -4797,6 +4934,11 @@ void WriteRestartStatistics(FILE *FilePtr)
     fwrite(SurfaceAreaCount[i],sizeof(REAL),NumberOfBlocks,FilePtr);
 
     fwrite(TotalEnergyTimesNumberOfMoleculesAccumulated[i],sizeof(REAL),NumberOfBlocks,FilePtr);
+
+    fwrite(GhostInsertionAcceptanceProbability[i],sizeof(REAL),NumberOfBlocks,FilePtr);
+    fwrite(GhostDeletionAcceptanceProbability[i],sizeof(REAL),NumberOfBlocks,FilePtr);
+    fwrite(GhostDeletionRejectionProbability[i],sizeof(REAL),NumberOfBlocks,FilePtr);
+    fwrite(GhostInsertionRejectionProbability[i],sizeof(REAL),NumberOfBlocks,FilePtr);
 
     for(j=0;j<NumberOfComponents;j++)
     {
@@ -5022,6 +5164,12 @@ void AllocateStatisticsMemory(void)
   GibbsWidomEnergyFrameworkCount=(REAL***)calloc(NumberOfSystems,sizeof(REAL**));
   GibbsInverseDensityPerComponentAccumulated=(REAL***)calloc(NumberOfSystems,sizeof(REAL**));
 
+  // probabilites
+  GhostInsertionAcceptanceProbability=(REAL**)calloc(NumberOfSystems,sizeof(REAL*));
+  GhostInsertionRejectionProbability=(REAL**)calloc(NumberOfSystems,sizeof(REAL*));
+  GhostDeletionAcceptanceProbability=(REAL**)calloc(NumberOfSystems,sizeof(REAL*));
+  GhostDeletionRejectionProbability=(REAL**)calloc(NumberOfSystems,sizeof(REAL*));
+
   PrincipleMomentsOfInertiaAccumulated=(VECTOR***)calloc(NumberOfSystems,sizeof(VECTOR**));
   PrincipleMomentsOfInertiaCount=(REAL***)calloc(NumberOfSystems,sizeof(REAL**));
 
@@ -5209,6 +5357,11 @@ void AllocateStatisticsMemory(void)
     GibbsWidomEnergyFrameworkAccumulated[i]=(REAL**)calloc(NumberOfComponents,sizeof(REAL*));
     GibbsWidomEnergyFrameworkCount[i]=(REAL**)calloc(NumberOfComponents,sizeof(REAL*));
     GibbsInverseDensityPerComponentAccumulated[i]=(REAL**)calloc(NumberOfComponents,sizeof(REAL*));
+
+    GhostInsertionAcceptanceProbability[i]=(REAL*)calloc(NumberOfBlocks,sizeof(REAL));
+    GhostInsertionRejectionProbability[i]=(REAL*)calloc(NumberOfBlocks,sizeof(REAL));
+    GhostDeletionAcceptanceProbability[i]=(REAL*)calloc(NumberOfBlocks,sizeof(REAL));
+    GhostDeletionRejectionProbability[i]=(REAL*)calloc(NumberOfBlocks,sizeof(REAL));
 
     PrincipleMomentsOfInertiaAccumulated[i]=(VECTOR**)calloc(NumberOfComponents,sizeof(VECTOR*));
     PrincipleMomentsOfInertiaCount[i]=(REAL**)calloc(NumberOfComponents,sizeof(REAL*));
@@ -5435,6 +5588,11 @@ void ReadRestartStatistics(FILE *FilePtr)
     fread(SurfaceAreaCount[i],sizeof(REAL),NumberOfBlocks,FilePtr);
 
     fread(TotalEnergyTimesNumberOfMoleculesAccumulated[i],sizeof(REAL),NumberOfBlocks,FilePtr);
+
+    fread(GhostInsertionAcceptanceProbability[i],sizeof(REAL),NumberOfBlocks,FilePtr);
+    fread(GhostDeletionAcceptanceProbability[i],sizeof(REAL),NumberOfBlocks,FilePtr);
+    fread(GhostDeletionRejectionProbability[i],sizeof(REAL),NumberOfBlocks,FilePtr);
+    fread(GhostInsertionRejectionProbability[i],sizeof(REAL),NumberOfBlocks,FilePtr);
 
     for(j=0;j<NumberOfComponents;j++)
     {

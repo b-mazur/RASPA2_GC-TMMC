@@ -151,6 +151,10 @@ int ReinsertionInPlaneAdsorbateMove(void);
 int IdentityChangeAdsorbateMove(void);
 int PartialReinsertionAdsorbateMove(void);
 
+int GhostSwapAddAdsorbateMove(void);
+int GhostSwapRemoveAdsorbateMove(void);
+void ClearGhostSwapProbabilities();
+
 void OptimizeTranslationAcceptence(void);
 void OptimizeRotationAcceptence(void);
 void OptimizeTranslationInPlaneAcceptence(void);

@@ -43,6 +43,11 @@
 #define AVERAGE(sum) (sum/((REAL)NR_BLOCKS))
 #define ERROR_CONFIDENCE_INTERVAL_95(sum,sum_squared) (2.776*sqrt(fabs((sum_squared/(REAL)NR_BLOCKS)-SQR(sum)/(REAL)SQR(NR_BLOCKS))/((REAL)(NR_BLOCKS-1))))
 
+extern REAL **GhostInsertionAcceptanceProbability;
+extern REAL **GhostInsertionRejectionProbability;
+extern REAL **GhostDeletionAcceptanceProbability;
+extern REAL **GhostDeletionRejectionProbability;
+
 extern REAL ***WidomRosenbluthFactorAccumulated;
 extern REAL ***WidomIdealGasAccumulated;
 extern REAL ***WidomRosenbluthFactorCount;

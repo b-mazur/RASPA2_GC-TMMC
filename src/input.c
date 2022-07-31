@@ -353,6 +353,7 @@ int ReadInput(char *input)
   NumberOfTrialPositionsIdentityChange=10;
   NumberOfTrialPositionsGibbs=10;
   NumberOfTrialPositionsSwap=10;
+  NumberOfTrialPositionsGhostSwap=10;
   NumberOfTrialPositionsWidom=10;
 
   NumberOfTrialPositionsForTheFirstBeadReinsertion=10;
@@ -2800,6 +2801,13 @@ int ReadInput(char *input)
     if(strcasecmp("SwapProbability",keyword)==0)
       if(sscanf(arguments,"%lf",&Components[CurrentComponent].ProbabilitySwapMove))
         if(Components[CurrentComponent].ProbabilitySwapMove>0.0)
+        {
+          Components[CurrentComponent].Swapable=TRUE;
+          Swapable=TRUE;
+        }
+    if(strcasecmp("GhostSwapProbability",keyword)==0)
+      if(sscanf(arguments,"%lf",&Components[CurrentComponent].ProbabilityGhostSwapMove))
+        if(Components[CurrentComponent].ProbabilityGhostSwapMove>0.0)
         {
           Components[CurrentComponent].Swapable=TRUE;
           Swapable=TRUE;

@@ -227,6 +227,11 @@ void MonteCarloSimulation(void)
             if(RandomNumber()<0.5) SwapAddMove();
             else SwapRemoveMove();
           }
+          else if(ran<Components[CurrentComponent].ProbabilityGhostSwapMove)
+          {
+            if(RandomNumber()<0.5) GhostSwapAddAdsorbateMove();
+            else GhostSwapRemoveAdsorbateMove();
+          }
           else if(ran<Components[CurrentComponent].ProbabilityCFSwapLambdaMove)
             CFSwapLambaMove();
           else if(ran<Components[CurrentComponent].ProbabilityCBCFSwapLambdaMove)
@@ -406,6 +411,11 @@ void MonteCarloSimulation(void)
               if(RandomNumber()<0.5) SwapAddMove();
               else SwapRemoveMove();
             }
+            else if(ran<Components[CurrentComponent].ProbabilityGhostSwapMove)
+            {
+              if(RandomNumber()<0.5) GhostSwapAddAdsorbateMove();
+              else GhostSwapRemoveAdsorbateMove();
+            }
             else if(ran<Components[CurrentComponent].ProbabilityCFSwapLambdaMove)
             {
               CFSwapLambaMove();
@@ -563,6 +573,7 @@ void MonteCarloSimulation(void)
     SamplePDBMovies(INITIALIZE,-1);
 
     ClearLambdaHistogram();
+    ClearGhostSwapProbabilities();
 
 
     SimulationStage=PRODUCTION;
@@ -727,6 +738,11 @@ void MonteCarloSimulation(void)
               cpu_after=get_cpu_time();
               Components[CurrentComponent].CpuTimeSwapMoveDeletion[CurrentSystem]+=(cpu_after-cpu_before);
             }
+          }
+          else if(ran<Components[CurrentComponent].ProbabilityGhostSwapMove)
+          {
+            if(RandomNumber()<0.5) GhostSwapAddAdsorbateMove();
+            else GhostSwapRemoveAdsorbateMove();
           }
           else if(ran<Components[CurrentComponent].ProbabilityCFSwapLambdaMove)
           {

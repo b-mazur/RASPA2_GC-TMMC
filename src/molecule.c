@@ -3573,6 +3573,7 @@ void RescaleComponentProbabilities(void)
             Components[i].ProbabilityReinsertionInPlaneMove+
             Components[i].ProbabilityIdentityChangeMove+
             Components[i].ProbabilitySwapMove+
+            Components[i].ProbabilityGhostSwapMove+
             Components[i].ProbabilityCFSwapLambdaMove+
             Components[i].ProbabilityCBCFSwapLambdaMove+
             Components[i].ProbabilityWidomMove+
@@ -3610,7 +3611,8 @@ void RescaleComponentProbabilities(void)
     Components[i].ProbabilityReinsertionInPlaneMove+=Components[i].ProbabilityReinsertionInPlaceMove;
     Components[i].ProbabilityIdentityChangeMove+=Components[i].ProbabilityReinsertionInPlaneMove;
     Components[i].ProbabilitySwapMove+=Components[i].ProbabilityIdentityChangeMove;
-    Components[i].ProbabilityCFSwapLambdaMove+=Components[i].ProbabilitySwapMove;
+    Components[i].ProbabilityGhostSwapMove+=Components[i].ProbabilitySwapMove;
+    Components[i].ProbabilityCFSwapLambdaMove+=Components[i].ProbabilityGhostSwapMove;
     Components[i].ProbabilityCBCFSwapLambdaMove+=Components[i].ProbabilityCFSwapLambdaMove;
     Components[i].ProbabilityWidomMove+=Components[i].ProbabilityCBCFSwapLambdaMove;
     Components[i].ProbabilityCFWidomLambdaMove+=Components[i].ProbabilityWidomMove;
@@ -3652,6 +3654,7 @@ void RescaleComponentProbabilities(void)
       Components[i].ProbabilityReinsertionInPlaneMove/=TotProb;
       Components[i].ProbabilityIdentityChangeMove/=TotProb;
       Components[i].ProbabilitySwapMove/=TotProb;
+      Components[i].ProbabilityGhostSwapMove/=TotProb;
       Components[i].ProbabilityCFSwapLambdaMove/=TotProb;
       Components[i].ProbabilityCBCFSwapLambdaMove/=TotProb;
       Components[i].ProbabilityWidomMove/=TotProb;
@@ -3692,7 +3695,8 @@ void RescaleComponentProbabilities(void)
     Components[i].FractionOfReinsertionInPlaneMove=Components[i].ProbabilityReinsertionInPlaneMove-Components[i].ProbabilityReinsertionInPlaceMove;
     Components[i].FractionOfIdentityChangeMove=Components[i].ProbabilityIdentityChangeMove-Components[i].ProbabilityReinsertionInPlaneMove;
     Components[i].FractionOfSwapMove=Components[i].ProbabilitySwapMove-Components[i].ProbabilityIdentityChangeMove;
-    Components[i].FractionOfCFSwapLambdaMove=Components[i].ProbabilityCFSwapLambdaMove-Components[i].ProbabilitySwapMove;
+    Components[i].FractionOfGhostSwapMove=Components[i].ProbabilityGhostSwapMove-Components[i].ProbabilitySwapMove;
+    Components[i].FractionOfCFSwapLambdaMove=Components[i].ProbabilityCFSwapLambdaMove-Components[i].ProbabilityGhostSwapMove;
     Components[i].FractionOfCBCFSwapLambdaMove=Components[i].ProbabilityCBCFSwapLambdaMove-Components[i].ProbabilityCFSwapLambdaMove;
     Components[i].FractionOfWidomMove=Components[i].ProbabilityWidomMove-Components[i].ProbabilityCBCFSwapLambdaMove;
     Components[i].FractionOfCFWidomLambdaMove=Components[i].ProbabilityCFWidomLambdaMove-Components[i].ProbabilityWidomMove;
