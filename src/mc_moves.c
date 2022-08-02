@@ -6929,6 +6929,173 @@ void PrintIdentityChangeStatistics(FILE *FilePtr)
 
 }
 
+//
+//
+//
+//
+// GhostSwapMove
+
+int GhostSwapAddAdsorbateMove(void)
+{
+  int i;
+  REAL RosenbluthNew,PartialFugacity,UTailNew;
+  REAL RosenbluthIdealNew;
+  REAL DeltaU;
+  REAL AcceptanceProbability;
+  int StoredNumberOfTrialPositions;
+  int StoredNumberOfTrialPositionsFirstBead;
+
+  StoredNumberOfTrialPositions=NumberOfTrialPositions;
+  StoredNumberOfTrialPositionsFirstBead=NumberOfTrialPositionsForTheFirstBead;
+
+  CurrentAdsorbateMolecule=NumberOfAdsorbateMolecules[CurrentSystem];
+  CurrentCationMolecule=NumberOfCationMolecules[CurrentSystem];
+
+  NumberOfBeadsAlreadyPlaced=0;
+  NumberOfTrialPositions=NumberOfTrialPositionsGhostSwap;
+  NumberOfTrialPositionsForTheFirstBead=NumberOfTrialPositionsForTheFirstBeadSwap;
+  RosenbluthNew=GrowMolecule(CBMC_INSERTION);
+  NumberOfTrialPositions=StoredNumberOfTrialPositions;
+  NumberOfTrialPositionsForTheFirstBead=StoredNumberOfTrialPositionsFirstBead;
+  if (OVERLAP) return 0;
+
+  for(i=0;i<Components[CurrentComponent].NumberOfAtoms;i++)
+  {
+    if(BlockedPocket(TrialPosition[CurrentSystem][i]))
+      return 0;
+  }
+
+  UTailNew=TailMolecularEnergyDifferenceAdd();
+  RosenbluthNew*=exp(-Beta[CurrentSystem]*UTailNew);
+
+  if((ChargeMethod==EWALD)&&(!OmitEwaldFourier))
+  {
+    CalculateEwaldFourierAdsorbate(TRUE,FALSE,NumberOfAdsorbateMolecules[CurrentSystem],0);
+
+    RosenbluthNew*=exp(-Beta[CurrentSystem]*(
+        UHostAdsorbateChargeChargeFourierDelta[CurrentSystem]+UAdsorbateAdsorbateChargeChargeFourierDelta[CurrentSystem]+UAdsorbateCationChargeChargeFourierDelta[CurrentSystem]+
+        UHostAdsorbateChargeBondDipoleFourierDelta[CurrentSystem]+UAdsorbateAdsorbateChargeBondDipoleFourierDelta[CurrentSystem]+UAdsorbateCationChargeBondDipoleFourierDelta[CurrentSystem]+
+        UHostAdsorbateBondDipoleBondDipoleFourierDelta[CurrentSystem]+UAdsorbateAdsorbateBondDipoleBondDipoleFourierDelta[CurrentSystem]+UAdsorbateCationBondDipoleBondDipoleFourierDelta[CurrentSystem]));
+  }
+
+  // get partial pressure for this component
+  PartialFugacity=Components[CurrentComponent].FugacityCoefficient[CurrentSystem]*
+                  Components[CurrentComponent].PartialPressure[CurrentSystem];
+
+  RosenbluthIdealNew=Components[CurrentComponent].IdealGasRosenbluthWeight[CurrentSystem];
+
+  // acceptence rule
+  AcceptanceProbability=((RosenbluthNew/RosenbluthIdealNew)*Beta[CurrentSystem]*PartialFugacity*Volume[CurrentSystem]/
+                        (1.0+Components[CurrentComponent].NumberOfMolecules[CurrentSystem]-(Components[CurrentComponent].FractionalMolecule[CurrentSystem]>=0?1:0)));
+
+  if(AcceptanceProbability>1.0) AcceptanceProbability=1.0;
+
+  GhostInsertionAcceptanceProbability[CurrentSystem][Block]+=AcceptanceProbability;
+  GhostInsertionRejectionProbability[CurrentSystem][Block]+=(1-AcceptanceProbability);
+
+  return 0;
+}
+
+int GhostSwapRemoveAdsorbateMove(void)
+{
+  int i;
+  REAL RosenbluthOld,PartialFugacity,UTailOld;
+  REAL RosenbluthIdealOld;
+  REAL DeltaU;
+  REAL AcceptanceProbability;
+  int StoredNumberOfTrialPositions;
+  int StoredNumberOfTrialPositionsFirstBead;
+
+  StoredNumberOfTrialPositions=NumberOfTrialPositions;
+  StoredNumberOfTrialPositionsFirstBead=NumberOfTrialPositionsForTheFirstBead;
+
+  // return if the component currently has zero molecules
+  if(NumberOfAdsorbateMolecules[CurrentSystem]==0) return 0;
+  if(Components[CurrentComponent].NumberOfMolecules[CurrentSystem]<=(Components[CurrentComponent].FractionalMolecule[CurrentSystem]>=0?1:0)) return 0;
+
+  int numberOfSelectableMolecules=Components[CurrentComponent].NumberOfMolecules[CurrentSystem]
+                                -(Components[CurrentComponent].FractionalMolecule[CurrentSystem]>=0?1:0)
+                                -numberOfReactionMoleculesForComponent(CurrentComponent);
+
+  if(numberOfSelectableMolecules<=0) return -1;
+
+  CurrentAdsorbateMolecule=SelectRandomMoleculeOfTypeExcludingFractionalMolecule(CurrentComponent);
+  CurrentCationMolecule=-1;
+
+  // calculate the Old Rosenbluth factor
+  NumberOfBeadsAlreadyPlaced=0;
+  for(i=0;i<Components[CurrentComponent].NumberOfAtoms;i++)
+    OldPosition[i]=Adsorbates[CurrentSystem][CurrentAdsorbateMolecule].Atoms[i].Position;
+  NumberOfTrialPositions=NumberOfTrialPositionsGhostSwap;
+  NumberOfTrialPositionsForTheFirstBead=NumberOfTrialPositionsForTheFirstBeadSwap;
+  RosenbluthOld=RetraceMolecule(CBMC_DELETION);
+  NumberOfTrialPositions=StoredNumberOfTrialPositions;
+  NumberOfTrialPositionsForTheFirstBead=StoredNumberOfTrialPositionsFirstBead;
+  if (OVERLAP) return 0;
+
+  UTailOld=TailMolecularEnergyDifferenceRemove();
+  RosenbluthOld*=exp(-Beta[CurrentSystem]*UTailOld);
+
+  if((ChargeMethod==EWALD)&&(!OmitEwaldFourier))
+  {
+    CalculateEwaldFourierAdsorbate(FALSE,TRUE,CurrentAdsorbateMolecule,0);
+
+    RosenbluthOld*=exp(Beta[CurrentSystem]*(
+         UHostAdsorbateChargeChargeFourierDelta[CurrentSystem]+UAdsorbateAdsorbateChargeChargeFourierDelta[CurrentSystem]+UAdsorbateCationChargeChargeFourierDelta[CurrentSystem]+
+         UHostAdsorbateChargeBondDipoleFourierDelta[CurrentSystem]+UAdsorbateAdsorbateChargeBondDipoleFourierDelta[CurrentSystem]+UAdsorbateCationChargeBondDipoleFourierDelta[CurrentSystem]+
+         UHostAdsorbateBondDipoleBondDipoleFourierDelta[CurrentSystem]+UAdsorbateAdsorbateBondDipoleBondDipoleFourierDelta[CurrentSystem]+UAdsorbateCationBondDipoleBondDipoleFourierDelta[CurrentSystem]));
+  }
+
+  if(ComputePolarization)
+  {
+    ComputeNewPolarizationEnergy(FALSE,CurrentAdsorbateMolecule,-1);
+    UDeltaPolarization=UHostPolarizationNew[CurrentSystem]-UHostPolarization[CurrentSystem]+
+                       (UAdsorbatePolarizationNew[CurrentSystem]+UPolarizationNew[CurrentSystem])-UAdsorbatePolarization[CurrentSystem]+
+                       UCationPolarizationNew[CurrentSystem]-UCationPolarization[CurrentSystem]+
+                       UHostBackPolarizationNew[CurrentSystem]-UHostBackPolarization[CurrentSystem]+
+                       (UAdsorbateBackPolarizationNew[CurrentSystem]+UBackPolarizationNew[CurrentSystem])-UAdsorbateBackPolarization[CurrentSystem]+
+                       UCationBackPolarizationNew[CurrentSystem]-UCationBackPolarization[CurrentSystem];
+    RosenbluthOld*=exp(Beta[CurrentSystem]*UDeltaPolarization);
+  }
+
+  PartialFugacity=Components[CurrentComponent].FugacityCoefficient[CurrentSystem]*
+                  Components[CurrentComponent].PartialPressure[CurrentSystem];
+
+  RosenbluthIdealOld=Components[CurrentComponent].IdealGasRosenbluthWeight[CurrentSystem];
+
+  AcceptanceProbability=((REAL)(Components[CurrentComponent].NumberOfMolecules[CurrentSystem]-(Components[CurrentComponent].FractionalMolecule[CurrentSystem]>=0?1:0))/
+                    ((RosenbluthOld/RosenbluthIdealOld)*Beta[CurrentSystem]*PartialFugacity*Volume[CurrentSystem]));
+
+  if(AcceptanceProbability>1.0) AcceptanceProbability=1.0;
+
+  GhostDeletionAcceptanceProbability[CurrentSystem][Block]+=AcceptanceProbability;
+  GhostDeletionRejectionProbability[CurrentSystem][Block]+=(1-AcceptanceProbability);
+
+  return 0;
+}
+
+void ClearGhostSwapProbabilities()
+{
+  int i,j;
+
+  for(i=0;i<NumberOfSystems;i++)
+  {
+    for(j=0;j<NR_BLOCKS;j++)
+    {
+      GhostInsertionAcceptanceProbability[i][j]=0.0;
+      GhostInsertionRejectionProbability[i][j]=0.0;
+      GhostDeletionAcceptanceProbability[i][j]=0.0;
+      GhostDeletionRejectionProbability[i][j]=0.0;
+    }
+    
+  }
+}
+
+// End of GhostSwapMove
+//
+//
+//
+//
 
 // Swap Monte-Carlo move
 //
