@@ -341,7 +341,7 @@ int ReadInput(char *input)
   EquationOfState=PENG_ROBINSON;
 
   // default values for CBMC
-  BiasingMethod=LJ_BIASING;
+  BiasingMethod=LJ_AND_REAL_BIASING;
   MinimumInnerCycles=20;
   NumberOfTrialPositions=10;
   NumberOfTrialPositionsForTheFirstBead=10;

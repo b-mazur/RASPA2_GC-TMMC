@@ -228,10 +228,7 @@ void MonteCarloSimulation(void)
             else SwapRemoveMove();
           }
           else if(ran<Components[CurrentComponent].ProbabilityGhostSwapMove)
-          {
-            if(RandomNumber()<0.5) GhostSwapAddAdsorbateMove();
-            else GhostSwapRemoveAdsorbateMove();
-          }
+            ;
           else if(ran<Components[CurrentComponent].ProbabilityCFSwapLambdaMove)
             CFSwapLambaMove();
           else if(ran<Components[CurrentComponent].ProbabilityCBCFSwapLambdaMove)
@@ -412,10 +409,7 @@ void MonteCarloSimulation(void)
               else SwapRemoveMove();
             }
             else if(ran<Components[CurrentComponent].ProbabilityGhostSwapMove)
-            {
-              if(RandomNumber()<0.5) GhostSwapAddAdsorbateMove();
-              else GhostSwapRemoveAdsorbateMove();
-            }
+              ;
             else if(ran<Components[CurrentComponent].ProbabilityCFSwapLambdaMove)
             {
               CFSwapLambaMove();

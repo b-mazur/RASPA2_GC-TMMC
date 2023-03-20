@@ -426,15 +426,26 @@ void ReadFrameworkDefinitionCIF(void)
             "cif");
     if(!(FilePtr=fopen(buffer,"r")))
     {
-      sprintf(buffer,"%s/share/raspa/structures/cif/%s.%s",
-              RASPA_DIRECTORY,
+      sprintf(buffer,"/home/bamaz/structures/%s.%s",
               Framework[CurrentSystem].Name[CurrentFramework],
               "cif");
 
       if(!(FilePtr=fopen(buffer,"r")))
       {
-        fprintf(stderr, "Error:  file %s does not exist.\n",buffer);
-        exit(1);
+        sprintf(buffer,"%s/share/raspa/structures/cif/%s.%s",
+                RASPA_DIRECTORY,
+                Framework[CurrentSystem].Name[CurrentFramework],
+                "cif");
+  
+        if(!(FilePtr=fopen(buffer,"r")))
+        {
+          fprintf(stderr, "Error:  file %s does not exist.\n",buffer);
+          exit(1);
+        }
+      }
+      else
+      {
+	fprintf(stderr, "CIF file taken from: %s.\n",buffer);
       }
     }
   }

@@ -1167,16 +1167,25 @@ void ReadComponentDefinition(int comp)
   sprintf(buffer,"%s.def",Components[comp].Name);
   if(!(FilePtr=fopen(buffer,"r")))
   {
-    sprintf(buffer,"%s/share/raspa/molecules/%s/%s.%s",
-       RASPA_DIRECTORY,
-       Components[comp].MoleculeDefinition,
-       Components[comp].Name,
-       "def");
+    sprintf(buffer,"/home/bamaz/molecules/%s.def",Components[comp].Name);
 
     if(!(FilePtr=fopen(buffer,"r")))
     {
-      fprintf(stderr, "Cannot open %s. Error: %s.\n", buffer, strerror(errno));
-      exit(1);
+      sprintf(buffer,"%s/share/raspa/molecules/%s/%s.%s",
+         RASPA_DIRECTORY,
+         Components[comp].MoleculeDefinition,
+         Components[comp].Name,
+         "def");
+  
+      if(!(FilePtr=fopen(buffer,"r")))
+      {
+        fprintf(stderr, "Cannot open %s. Error: %s.\n", buffer, strerror(errno));
+        exit(1);
+      }
+    }
+    else
+    {
+      fprintf(stderr, "Molecule file taken from: %s.\n",buffer);
     }
   }
 
