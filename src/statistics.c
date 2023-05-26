@@ -1853,35 +1853,35 @@ void PrintIntervalStatusInit(long long CurrentCycle,long long NumberOfCycles,FIL
           (double)UHostBendTorsion[CurrentSystem]*ENERGY_TO_KELVIN);
   }
 
-  // Ghost insertion probabilities
+  // // Ghost insertion probabilities
 
-  fprintf(FilePtr, "\n");
-  fprintf(FilePtr, "Current ghost insertion probabilities:\n");
-  sumInsAcc=sumDelAcc=sumRej=0.0;
-  for(int i=0;i<NR_BLOCKS;i++)
-  {
-    if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
-    {
-      REAL tmp1=GhostInsertionAcceptanceProbability[CurrentSystem][i];
-      sumInsAcc+=tmp1;
-      REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
-      sumDelAcc+=tmp2;
-      REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
-      sumRej+=tmp3;
-    }
-  }
-  if(sumInsAcc>0.0)
-  {
-    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)sumInsAcc);
-    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)sumDelAcc);
-    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)sumRej);
-  }
-  else
-  {
-    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)0.0);
-    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)0.0);
-    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)0.0);
-  } 
+  // fprintf(FilePtr, "\n");
+  // fprintf(FilePtr, "Current ghost insertion probabilities:\n");
+  // sumInsAcc=sumDelAcc=sumRej=0.0;
+  // for(int i=0;i<NR_BLOCKS;i++)
+  // {
+  //   if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
+  //   {
+  //     REAL tmp1=GhostInsertionAcceptanceProbability[CurrentSystem][i];
+  //     sumInsAcc+=tmp1;
+  //     REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
+  //     sumDelAcc+=tmp2;
+  //     REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
+  //     sumRej+=tmp3;
+  //   }
+  // }
+  // if(sumInsAcc>0.0)
+  // {
+  //   fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)sumInsAcc);
+  //   fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)sumDelAcc);
+  //   fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)sumRej);
+  // }
+  // else
+  // {
+  //   fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)0.0);
+  //   fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)0.0);
+  //   fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)0.0);
+  // } 
 
   fprintf(FilePtr,"\n");
   PrintWarningStatus();
@@ -2203,35 +2203,35 @@ void PrintIntervalStatusEquilibration(long long CurrentCycle,long long NumberOfC
           (double)UHostBendTorsion[CurrentSystem]*ENERGY_TO_KELVIN);
   }
 
-  // Ghost insertion probabilities
+  // // Ghost insertion probabilities
 
-  fprintf(FilePtr, "\n");
-  fprintf(FilePtr, "Current ghost insertion probabilities:\n");
-  sumInsAcc=sumDelAcc=sumRej=0.0;
-  for(int i=0;i<NR_BLOCKS;i++)
-  {
-    if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
-    {
-      REAL tmp1=GhostInsertionAcceptanceProbability[CurrentSystem][i];
-      sumInsAcc+=tmp1;
-      REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
-      sumDelAcc+=tmp2;
-      REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
-      sumRej+=tmp3;
-    }
-  }
-  if(sumInsAcc>0.0)
-  {
-    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)sumInsAcc);
-    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)sumDelAcc);
-    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)sumRej);
-  }
-  else
-  {
-    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)0.0);
-    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)0.0);
-    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)0.0);
-  }  
+  // fprintf(FilePtr, "\n");
+  // fprintf(FilePtr, "Current ghost insertion probabilities:\n");
+  // sumInsAcc=sumDelAcc=sumRej=0.0;
+  // for(int i=0;i<NR_BLOCKS;i++)
+  // {
+  //   if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
+  //   {
+  //     REAL tmp1=GhostInsertionAcceptanceProbability[CurrentSystem][i];
+  //     sumInsAcc+=tmp1;
+  //     REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
+  //     sumDelAcc+=tmp2;
+  //     REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
+  //     sumRej+=tmp3;
+  //   }
+  // }
+  // if(sumInsAcc>0.0)
+  // {
+  //   fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)sumInsAcc);
+  //   fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)sumDelAcc);
+  //   fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)sumRej);
+  // }
+  // else
+  // {
+  //   fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)0.0);
+  //   fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)0.0);
+  //   fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)0.0);
+  // }  
 
   fprintf(FilePtr,"\n");
   PrintWarningStatus();
@@ -3396,11 +3396,49 @@ void PrintIntervalStatusProduction(long long CurrentCycle,long long NumberOfCycl
           (double)UHostBendTorsion[CurrentSystem]*ENERGY_TO_KELVIN,(double)GetAverageWeightedProperty(UHostBendTorsionAccumulated)*ENERGY_TO_KELVIN);
   }
 
-  // Ghost insertion probabilities
+  // // Ghost insertion probabilities
 
-  fprintf(FilePtr, "\n");
-  fprintf(FilePtr, "Current ghost insertion probabilities:\n");
-  sumInsAcc=sumDelAcc=sumRej=0.0;
+  // fprintf(FilePtr, "\n");
+  // fprintf(FilePtr, "Current ghost insertion probabilities:\n");
+  // sumInsAcc=sumDelAcc=sumRej=0.0;
+  // for(int i=0;i<NR_BLOCKS;i++)
+  // {
+  //   if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
+  //   {
+  //     REAL tmp1=GhostInsertionAcceptanceProbability[CurrentSystem][i];
+  //     sumInsAcc+=tmp1;
+  //     REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
+  //     sumDelAcc+=tmp2;
+  //     REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
+  //     sumRej+=tmp3;
+  //   }
+  // }
+  // if(sumInsAcc>0.0)
+  // {
+  //   fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)sumInsAcc);
+  //   fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)sumDelAcc);
+  //   fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)sumRej);
+  // }
+  // else
+  // {
+  //   fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)0.0);
+  //   fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)0.0);
+  //   fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)0.0);
+  // } 
+
+  fprintf(FilePtr,"\n");
+  PrintWarningStatus();
+  fprintf(FilePtr,"\n\n");
+  fflush(FilePtr);
+}
+
+void PrintCurrentGhostProbabilities(long long CurrentCycle, FILE *FilePtr)
+{
+  int i;
+  REAL sumInsAcc,sumDelAcc,sumRejAcc;
+  REAL Pup,Pdown;
+
+  sumInsAcc=sumDelAcc=sumRejAcc=0.0;
   for(int i=0;i<NR_BLOCKS;i++)
   {
     if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
@@ -3410,26 +3448,17 @@ void PrintIntervalStatusProduction(long long CurrentCycle,long long NumberOfCycl
       REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
       sumDelAcc+=tmp2;
       REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
-      sumRej+=tmp3;
+      sumRejAcc+=tmp3;
+      Pup=sumInsAcc/(sumInsAcc+sumDelAcc+sumRejAcc);
+      Pdown=sumDelAcc/(sumInsAcc+sumDelAcc+sumRejAcc);
     }
   }
-  if(sumInsAcc>0.0)
-  {
-    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)sumInsAcc);
-    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)sumDelAcc);
-    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)sumRej);
-  }
-  else
-  {
-    fprintf(FilePtr, "\tCurrent insertion probability:            % 18.10lf \n", (double)0.0);
-    fprintf(FilePtr, "\tCurrent deletion probability:             % 18.10lf \n", (double)0.0);
-    fprintf(FilePtr, "\tCurrent ghost swap rejection probability: % 18.10lf \n", (double)0.0);
-  } 
 
-  fprintf(FilePtr,"\n");
-  PrintWarningStatus();
-  fprintf(FilePtr,"\n\n");
-  fflush(FilePtr);
+  fprintf(FilePtr, "%lld,%.10lf,%.10lf,%.10lf\n",
+      CurrentCycle,
+      (double)Pup,
+      (double)Pdown,
+      (double)UTotal[CurrentSystem]*ENERGY_TO_KELVIN);
 }
 
 void PrintProperty(FILE *FilePtr,char *string,char *units,REAL conv_factor,REAL **Property)
@@ -4728,36 +4757,36 @@ void PrintAverageTotalSystemEnergiesMC(FILE *FilePtr)
     }
   }
 
-  // Ghost insertion probabilities
+  // // Ghost insertion probabilities
 
-  fprintf(FilePtr, "\n");
-  fprintf(FilePtr, "Ghost insertion probabilities:\n");
-  fprintf(FilePtr, "==============================\n");
-  sumInsAcc=sumDelAcc=sumRej=0.0;
-  for(int i=0;i<NR_BLOCKS;i++)
-  {
-    if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
-    {
-      REAL tmp1=GhostInsertionAcceptanceProbability[CurrentSystem][i];
-      sumInsAcc+=tmp1;
-      REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
-      sumDelAcc+=tmp2;
-      REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
-      sumRej+=tmp3;
-    }
-  }
-  if(sumInsAcc>0.0)
-  {
-    fprintf(FilePtr, "\tInsertion probability: %18.10lf \n", (double)sumInsAcc);
-    fprintf(FilePtr, "\tDeletion probability: %18.10lf \n", (double)sumDelAcc);
-    fprintf(FilePtr, "\tGhost swap rejection probability: %18.10lf \n", (double)sumRej);
-  }
-  else
-  {
-    fprintf(FilePtr, "\tInsertion probability: %18.10lf \n", (double)0.0);
-    fprintf(FilePtr, "\tDeletion probability: %18.10lf \n", (double)0.0);
-    fprintf(FilePtr, "\tGhost swap rejection probability: %18.10lf \n", (double)0.0);
-  }
+  // fprintf(FilePtr, "\n");
+  // fprintf(FilePtr, "Ghost insertion probabilities:\n");
+  // fprintf(FilePtr, "==============================\n");
+  // sumInsAcc=sumDelAcc=sumRej=0.0;
+  // for(int i=0;i<NR_BLOCKS;i++)
+  // {
+  //   if(GhostInsertionAcceptanceProbability[CurrentSystem][i]>0.0)
+  //   {
+  //     REAL tmp1=GhostInsertionAcceptanceProbability[CurrentSystem][i];
+  //     sumInsAcc+=tmp1;
+  //     REAL tmp2=GhostDeletionAcceptanceProbability[CurrentSystem][i];
+  //     sumDelAcc+=tmp2;
+  //     REAL tmp3=GhostInsertionRejectionProbability[CurrentSystem][i]+GhostDeletionRejectionProbability[CurrentSystem][i];
+  //     sumRej+=tmp3;
+  //   }
+  // }
+  // if(sumInsAcc>0.0)
+  // {
+  //   fprintf(FilePtr, "\tInsertion probability: %18.10lf \n", (double)sumInsAcc);
+  //   fprintf(FilePtr, "\tDeletion probability: %18.10lf \n", (double)sumDelAcc);
+  //   fprintf(FilePtr, "\tGhost swap rejection probability: %18.10lf \n", (double)sumRej);
+  // }
+  // else
+  // {
+  //   fprintf(FilePtr, "\tInsertion probability: %18.10lf \n", (double)0.0);
+  //   fprintf(FilePtr, "\tDeletion probability: %18.10lf \n", (double)0.0);
+  //   fprintf(FilePtr, "\tGhost swap rejection probability: %18.10lf \n", (double)0.0);
+  // }
 }
 
 static int versionNumber=1;

@@ -137,6 +137,15 @@ void MonteCarloSimulation(void)
     // open output-file for systems
     OpenOutputFile();
 
+    // open Ghost Probabilites file
+    FILE **GhostProbabilitesFile = fopen("P-ghost.data","w");
+    if (GhostProbabilitesFile == NULL) {
+      perror("fopen for ghost file failed");
+      exit(1);
+    }
+
+    fprintf(GhostProbabilitesFile,"current_cycle,P_up,P_down,current_potential_energy_K\n");
+
     // print simulation settings to the output-file
     PrintPreSimulationStatus();
 
@@ -624,6 +633,15 @@ void MonteCarloSimulation(void)
         }
       }
 
+      // Print acceptance statistics at every PrintGhostProbabilitesEvery
+      if((CurrentCycle%PrintGhostProbabilitesEvery)==0)
+      {
+        for(CurrentSystem=0;CurrentSystem<NumberOfSystems;CurrentSystem++)
+        {
+          PrintCurrentGhostProbabilities(CurrentCycle,GhostProbabilitesFile);
+        }
+      }
+
       // select MC moves
       for(i=0;i<NumberOfSystems;i++)
       {
@@ -1054,6 +1072,10 @@ void MonteCarloSimulation(void)
       PrintRestartFile();
 
     CloseOutputFile();
+
+    // Close Ghost Probabilites file
+    fclose(GhostProbabilitesFile);
+
   }
 
   // set current prssure to the last one

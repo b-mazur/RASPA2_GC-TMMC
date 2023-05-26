@@ -122,6 +122,7 @@ extern long long NumberOfInitializationCycles;
 extern long long CurrentCycle;
 extern int SimulationStage;
 extern int PrintEvery;
+extern int PrintGhostProbabilitesEvery;
 extern int OptimizeAcceptenceEvery;
 extern int PrintPropertiesEvery;
 extern int Output;

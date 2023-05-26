@@ -317,6 +317,7 @@ int ReadInput(char *input)
 
   PrintPropertiesEvery=10000;
   PrintEvery=5000;
+  PrintGhostProbabilitesEvery=1000;
   OptimizeAcceptenceEvery=5000;
 
   OptimizeVolumeChange=TRUE;
@@ -1636,6 +1637,7 @@ int ReadInput(char *input)
 
     // read some printing options
     if(strcasecmp("PrintEvery",keyword)==0) sscanf(arguments,"%d",&PrintEvery);
+    if(strcasecmp("PrintGhostProbabilitesEvery",keyword)==0) sscanf(arguments,"%d",&PrintGhostProbabilitesEvery);
     if(strcasecmp("PrintPropertiesEvery",keyword)==0) sscanf(arguments,"%d",&PrintPropertiesEvery);
     if(strcasecmp("Output",keyword)==0)
     {
@@ -6167,6 +6169,7 @@ int ReadInput(char *input)
 
   // PrintEvery should be larger then zero
   if(PrintEvery<1) PrintEvery=5000;
+  if(PrintGhostProbabilitesEvery<1) PrintGhostProbabilitesEvery=1000;
 
   for(CurrentSystem=0;CurrentSystem<NumberOfSystems;CurrentSystem++)
   {

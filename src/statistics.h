@@ -102,6 +102,8 @@ void PrintIntervalStatusEquilibration(long long CurrentCycle,long long NumberOfC
 void PrintIntervalStatusProduction(long long CurrentCycle,long long NumberOfCycles, FILE *FilePtr);
 void PrintAverageTotalSystemEnergiesMC(FILE *FilePtr);
 
+void PrintCurrentGhostProbabilities(long long CurrentCycle, FILE *FilePtr);
+
 REAL GetAverageMolecularPressure(void);
 
 void PrintIntervalStatusMD(long long CurrentCycle,FILE *FilePtr);

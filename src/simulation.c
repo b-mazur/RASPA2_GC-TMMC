@@ -88,6 +88,7 @@ long long NumberOfInitializationCycles;
 long long CurrentCycle;
 int SimulationStage;
 int PrintEvery;
+int PrintGhostProbabilitesEvery;
 int OptimizeAcceptenceEvery;
 int PrintPropertiesEvery;
 int Output;
@@ -833,6 +834,7 @@ void WriteRestartSimulation(FILE *FilePtr)
   fwrite(&SimulationStage,sizeof(SimulationStage),1,FilePtr);
   fwrite(&UseReducedUnits,sizeof(UseReducedUnits),1,FilePtr);
   fwrite(&PrintEvery,sizeof(PrintEvery),1,FilePtr);
+  fwrite(&PrintGhostProbabilitesEvery,sizeof(PrintGhostProbabilitesEvery),1,FilePtr);
   fwrite(&OptimizeAcceptenceEvery,sizeof(OptimizeAcceptenceEvery),1,FilePtr);
   fwrite(&PrintPropertiesEvery,sizeof(PrintPropertiesEvery),1,FilePtr);
   fwrite(&Output,sizeof(Output),1,FilePtr);
@@ -1504,6 +1506,7 @@ void ReadRestartSimulation(FILE *FilePtr)
   fread(&SimulationStage,sizeof(SimulationStage),1,FilePtr);
   fread(&UseReducedUnits,sizeof(UseReducedUnits),1,FilePtr);
   fread(&PrintEvery,sizeof(PrintEvery),1,FilePtr);
+  fread(&PrintGhostProbabilitesEvery,sizeof(PrintGhostProbabilitesEvery),1,FilePtr);
   fread(&OptimizeAcceptenceEvery,sizeof(OptimizeAcceptenceEvery),1,FilePtr);
   fread(&PrintPropertiesEvery,sizeof(PrintPropertiesEvery),1,FilePtr);
   fread(&Output,sizeof(Output),1,FilePtr);

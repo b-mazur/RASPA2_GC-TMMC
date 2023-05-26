@@ -34,6 +34,8 @@
 #ifndef MONTE_CARLO_H
 #define MONTE_CARLO_H
 
+extern FILE **GhostProbabilitesFile;
+
 void MonteCarloSimulation(void);
 
 void ComputePoreSizeDistribution(void);
