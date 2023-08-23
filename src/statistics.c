@@ -3454,7 +3454,7 @@ void PrintCurrentGhostProbabilities(long long CurrentCycle, FILE *FilePtr)
     }
   }
 
-  fprintf(FilePtr, "%lld,%.10lf,%.10lf,%.10lf\n",
+  fprintf(FilePtr, "%lld,%.10e,%.10e,%.10f\n",
       CurrentCycle,
       (double)Pup,
       (double)Pdown,

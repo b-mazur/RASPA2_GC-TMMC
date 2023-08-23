@@ -77,6 +77,7 @@ void MonteCarloSimulation(void)
   int NumberOfParticleMoves;
   int NumberOfSteps;
   int SelectedSystem;
+  char buffer[256];
   double cpu_start,cpu_end;
   double cpu_before,cpu_after;
   REAL ran;
@@ -136,15 +137,6 @@ void MonteCarloSimulation(void)
 
     // open output-file for systems
     OpenOutputFile();
-
-    // open Ghost Probabilites file
-    FILE **GhostProbabilitesFile = fopen("P-ghost.data","w");
-    if (GhostProbabilitesFile == NULL) {
-      perror("fopen for ghost file failed");
-      exit(1);
-    }
-
-    fprintf(GhostProbabilitesFile,"current_cycle,P_up,P_down,current_potential_energy_K\n");
 
     // print simulation settings to the output-file
     PrintPreSimulationStatus();
@@ -578,6 +570,23 @@ void MonteCarloSimulation(void)
     ClearLambdaHistogram();
     ClearGhostSwapProbabilities();
 
+    // open Ghost Probabilites file
+    sprintf(buffer,"prob_%s_%d.%d.%d_%lf_%lg.csv",
+            Framework[0].Name[0],
+            NumberOfUnitCells[0].x,
+            NumberOfUnitCells[0].y,
+            NumberOfUnitCells[0].z,
+            (double)therm_baro_stats.ExternalTemperature[0],
+            (double)(therm_baro_stats.ExternalPressure[0][CurrentIsothermPressure]*PRESSURE_CONVERSION_FACTOR));
+
+    FILE *GhostProbabilitesFile = fopen(buffer,"w");
+
+    if (GhostProbabilitesFile == NULL) {
+      perror("fopen for ghost file failed");
+      exit(1);
+    }
+
+    fprintf(GhostProbabilitesFile,"current_cycle,P_up,P_down,current_potential_energy_K\n");
 
     SimulationStage=PRODUCTION;
     for(CurrentCycle=0;CurrentCycle<NumberOfCycles;CurrentCycle++)
