@@ -17,7 +17,7 @@ C(N,N-1)=C(N,N-1)+acc(N→N-1)
 C(N,N)=C(N,N)+[1-acc(N→N-1)]
 ```
 
-To calculate density of states at given P and T you have to perform separate simulations for each falue of N ∈ \[0, N<sub>max</sub>\]. See an [example input file]([https://github.com/b-mazur/asaf/blob/main/example/raspa_input/MOF-303/simulation.input). 
+To calculate density of states at given P and T you have to perform separate simulations for each falue of N ∈ \[0, N<sub>max</sub>\]. See an [example input file]([https://github.com/b-mazur/asaf/blob/main/example/raspa_input/MOF-303/simulation.input]). 
 
 Current probabilities and potential energy are printed to separate output file. To better understand GC-TMMC method see for example:
 
